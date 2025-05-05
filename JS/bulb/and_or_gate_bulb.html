@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Gates Simulator</title>
+    <style>
+        body {
+            font-family: 'Helvetica', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #005f99;
+            font-size: 1.8em;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+        .container {
+            background: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 260px;
+        }
+        select, input[type="checkbox"] {
+            accent-color: #005f99;
+            margin: 5px;
+        }
+        select {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+            color: #333;
+            font-size: 0.9em;
+        }
+        label {
+            font-size: 0.9em;
+            color: #333;
+        }
+        .bulb img {
+            width: 50px;
+            height: 50px;
+            margin: 10px 0;
+            display: none;
+        }
+        .bulb img.active {
+            display: block;
+        }
+        button {
+            background: #005f99;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #004c7a;
+        }
+        @media (max-width: 400px) {
+            .container {
+                width: 90%;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Logic Gates Simulator</h1>
+    <div class="container">
+        <div>
+            <label>Gate:</label>
+            <select id="gate" onchange="updateBulb()">
+                <option value="AND">AND</option>
+                <option value="OR">OR</option>
+            </select>
+        </div>
+        <div>
+            <label>A: <input type="checkbox" id="inputA" onchange="updateBulb()"></label>
+            <label>B: <input type="checkbox" id="inputB" onchange="updateBulb()"></label>
+        </div>
+        <div class="bulb">
+            <img id="bulb-off" src="bulb-light-svgrepo-com.svg" alt="Bulb Off">
+            <img id="bulb-on" src="bulb-svgrepo-com.svg" alt="Bulb On">
+        </div>
+        <button onclick="resetInputs()">Reset</button>
+    </div>
+
+    <script>
+        function updateBulb() {
+            const gate = document.getElementById('gate').value;
+            const inputA = document.getElementById('inputA').checked;
+            const inputB = document.getElementById('inputB').checked;
+            const bulbOff = document.getElementById('bulb-off');
+            const bulbOn = document.getElementById('bulb-on');
+            
+            let isOn = false;
+            if (gate === 'AND') {
+                isOn = inputA && inputB;
+            } else if (gate === 'OR') {
+                isOn = inputA || inputB;
+            }
+
+            bulbOff.classList.toggle('active', !isOn);
+            bulbOn.classList.toggle('active', isOn);
+        }
+
+        function resetInputs() {
+            document.getElementById('inputA').checked = false;
+            document.getElementById('inputB').checked = false;
+            document.getElementById('gate').value = 'AND';
+            updateBulb();
+        }
+
+        // Initialize bulb state
+        updateBulb();
+    </script>
+</body>
+</html>
