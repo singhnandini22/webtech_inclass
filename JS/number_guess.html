@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Guess the Number Game</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Guess the Number Game</h1>
+  <p>I'm thinking of a number between 1 and 100.</p>
+
+  <input type="number" id="guessInput" placeholder="Enter your guess" />
+  <button onclick="checkGuess()">Guess</button>
+  <p id="result"></p>
+
+  <script>
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    function checkGuess() {
+      const input = document.getElementById("guessInput");
+      const result = document.getElementById("result");
+      const guess = Number(input.value);
+      attempts++;
+
+      if (!guess || guess < 1 || guess > 100) {
+        result.textContent = "Please enter a valid number between 1 and 100.";
+        return;
+      }
+
+      if (guess === randomNumber) {
+        result.textContent = `Congratulations! You guessed it in ${attempts} attempt(s)!`;
+        input.disabled = true;
+        document.querySelector("button").disabled = true;
+      } else if (attempts >= maxAttempts) {
+        result.textContent = `Game Over! The correct number was ${randomNumber}.`;
+        input.disabled = true;
+        document.querySelector("button").disabled = true;
+      } else {
+        result.textContent = guess < randomNumber ? "Too low. Try again." : "Too high. Try again.";
+        input.value = "";
+        input.focus();
+      }
+    }
+  </script>
+
+</body>
+</html>
